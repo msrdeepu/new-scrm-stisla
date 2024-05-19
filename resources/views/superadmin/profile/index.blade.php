@@ -28,14 +28,14 @@
                             </div>
                             <div class="card-body">
                                 <div class="mb-3">
-                                    <img src="{{ asset(Auth::user()->image) }}" alt="" style="width: 100px">
+                                    <img src="{{ asset(Auth::user()->avatar) }}" alt="" style="width: 100px">
                                 </div>
                                 <div class="row">
 
                                     <div class="form-group col-12">
 
                                         <label>Avatar</label>
-                                        <input type="file" name="image" class="form-control" value=""
+                                        <input type="file" name="avatar" class="form-control" value=""
                                             required="">
 
                                     </div>

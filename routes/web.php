@@ -5,6 +5,8 @@ use App\Http\Controllers\Backend\SuperadminController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Front\EmployeeController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\front\MessengerController;
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,3 +43,8 @@ require __DIR__ . '/auth.php';
 
 
 Route::get('/superadmin/login', [SuperadminController::class, 'login'])->name('superadmin.login');
+
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('messenger', [MessengerController::class, 'index'])->name('messenger.home');
+});

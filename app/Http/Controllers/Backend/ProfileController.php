@@ -26,16 +26,16 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        if (File::exists(public_path($user->image))) {
-            File::delete(public_path($user->image));
+        if (File::exists(public_path($user->avatar))) {
+            File::delete(public_path($user->avatar));
         }
 
-        if ($request->hasFile('image')) {
-            $image = $request->image;
-            $imageName = rand() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('profiles'), $imageName);
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->avatar;
+            $imageName = rand() . '_' . $avatar->getClientOriginalName();
+            $avatar->move(public_path('profiles'), $imageName);
             $path = "/profiles/" . $imageName;
-            $user->image = $path;
+            $user->avatar = $path;
         }
 
         $user->name = $request->name;

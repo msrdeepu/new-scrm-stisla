@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('username')->nullable();
-            $table->text('image')->nullable();
+            $table->text('avatar')->default('default/avatar.png');
             $table->text('phone')->nullable();
             $table->enum('role', ['superadmin', 'admin', 'employee', 'user'])->default('user');
             $table->enum('status', ['active', 'inactive'])->default('active');
