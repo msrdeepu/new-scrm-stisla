@@ -25,14 +25,19 @@ class MessengerController extends Controller
         $records = User::where('id', '!=', $user)
             ->where('name', 'LIKE', "%{$input}%")
             ->orWhere('user_name', 'LIKE', "%{$input}%")
-            ->get();
+            ->paginate(10);
+
+        if ($records->total() < 1) {
+            $getRecords = '<p class="text-center">No Data Available</p>';
+        }
 
         foreach ($records as $record) {
             $getRecords .= view('messenger.components.search-item', compact('record'))->render();
         }
 
         return response()->json([
-            'records' => $getRecords
+            'records' => $getRecords,
+            'last_page' => $records->lastPage()
         ]);
     }
 }
