@@ -118,4 +118,11 @@ $(document).ready(function () {
         let value = $(".user_search").val();
         searchUsers(value);
     });
+
+    //onclick action for messenger items
+    $("body").on("click", ".messenger-list-item", function () {
+        // alert("Hello Sandeep");
+        let userId = $(this).attr("data-id");
+        alert(userId);
+    });
 });

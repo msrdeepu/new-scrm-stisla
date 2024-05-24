@@ -2,59 +2,49 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        DB::table('users')->insert([
+        $users = [
             [
                 'name' => 'Super Admin',
-                'username' => 'superadmin',
                 'email' => 'superadmin@inventory.com',
                 'role' => 'superadmin',
                 'status' => 'active',
-                'password' => bcrypt('password'),
-
-
+                'password' => Hash::make('password'),
             ],
             [
                 'name' => 'Admin',
-                'username' => 'admin',
                 'email' => 'admin@inventory.com',
                 'role' => 'admin',
                 'status' => 'active',
-                'password' => bcrypt('password'),
-
-
+                'password' => Hash::make('password'),
             ],
             [
                 'name' => 'Employee',
-                'username' => 'employee',
                 'email' => 'employee@inventory.com',
                 'role' => 'employee',
                 'status' => 'active',
-                'password' => bcrypt('password'),
-
-
+                'password' => Hash::make('password'),
             ],
             [
                 'name' => 'User',
-                'username' => 'user',
                 'email' => 'user@inventory.com',
                 'role' => 'user',
                 'status' => 'active',
-                'password' => bcrypt('password'),
-
-
+                'password' => Hash::make('password'),
             ],
+        ];
 
-        ]);
+        foreach ($users as &$user) {
+            $user['user_name'] = '@' . strtolower(str_replace(' ', '', $user['name'])) . '_' . rand(0, 9999);
+        }
+
+        DB::table('users')->insert($users);
     }
 }
