@@ -1,8 +1,27 @@
 /**
  * --------------
+ * Global Variables
+ * --------------
+ */
+
+var temporaryMsgId = 0;
+
+const getMessengerId = () => $("meta[name=id]").attr("content");
+const setMessengerId = (id) => $("meta[name=id]").attr("content", id);
+
+/**
+ * --------------
  * Reusable Functions
  * --------------
  */
+
+function enableChatBoxLoader() {
+    $(".wsus__message_paceholder").removeClass("d-none");
+}
+
+function disableChatBoxLoader() {
+    $(".wsus__message_paceholder").addClass("d-none");
+}
 
 function imagePreview(input, selector) {
     if (input.files && input.files[0]) {
@@ -89,6 +108,41 @@ function debounce(callback, delay) {
         }, delay);
     };
 }
+/**
+ * --------------------------------
+ * Fetch id data and update view
+ * --------------------------------
+ */
+
+function IDinfo(id) {
+    $.ajax({
+        method: "GET",
+        url: "messenger/id-info",
+        data: { id: id },
+        beforeSend: function () {
+            NProgress.start();
+            enableChatBoxLoader();
+        },
+        success: function (data) {
+            // console.log(data);
+            $(".messenger-header").find("img").attr("src", data.fetch.avatar);
+            $(".messenger-header").find("h4").text(data.fetch.name);
+            $(".messenger-info-view .user_photo")
+                .find("img")
+                .attr("src", data.fetch.avatar);
+            $(".messenger-info-view").find(".user_name").text(data.fetch.name);
+            $(".messenger-info-view")
+                .find(".user_unique_name")
+                .text(data.fetch.user_name);
+
+            NProgress.done();
+            disableChatBoxLoader();
+        },
+        error: function (xhr, status, error) {
+            disableChatBoxLoader();
+        },
+    });
+}
 
 /**
  * ----------------
@@ -123,6 +177,7 @@ $(document).ready(function () {
     $("body").on("click", ".messenger-list-item", function () {
         // alert("Hello Sandeep");
         let userId = $(this).attr("data-id");
-        alert(userId);
+        setMessengerId(userId);
+        IDinfo(userId);
     });
 });

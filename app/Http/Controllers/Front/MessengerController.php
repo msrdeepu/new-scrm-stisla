@@ -40,4 +40,14 @@ class MessengerController extends Controller
             'last_page' => $records->lastPage()
         ]);
     }
+
+    // fetch user by ID
+    function fetchIdInfo(Request $request)
+    {
+        $fetch = User::where('id', $request['id'])->first();
+
+        return response()->json([
+            'fetch' => $fetch
+        ]);
+    }
 }
