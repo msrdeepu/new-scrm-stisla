@@ -50,4 +50,9 @@ class MessengerController extends Controller
             'fetch' => $fetch
         ]);
     }
+
+    function sendMessage(Request $request)
+    {
+        dd($request->all());
+    }
 }

@@ -2,8 +2,8 @@
 
 @section('content')
     <!--==================================
-                                                            Chatting Application Start
-                                                        ===================================-->
+                                                                            Chatting Application Start
+                                                                        ===================================-->
     <section class="wsus__chat_app">
 
         @include('messenger.layouts.user-list-sidebar')
@@ -80,16 +80,16 @@
             <div class="wsus__chat_area_footer">
                 <div class="footer_message">
                     <!-- <div class="img">
-                                                                            <img src="images/chat_img.png" alt="User" class="img-fluid">
-                                                                            <span><i class="far fa-times"></i></span>
-                                                                        </div> -->
-                    <form action="#">
+                                                                                            <img src="images/chat_img.png" alt="User" class="img-fluid">
+                                                                                            <span><i class="far fa-times"></i></span>
+                                                                                        </div> -->
+                    <form action="#" class="messege-form">
                         <div class="file">
                             <label for="file"><i class="far fa-plus"></i></label>
-                            <input id="file" type="file" hidden>
+                            <input name="file" id="file" type="file" hidden>
                         </div>
-                        <textarea id="example1" rows="1" placeholder="Type a message.."></textarea>
-                        <button><i class="fas fa-paper-plane"></i></button>
+                        <textarea name="message" class="message-input" id="example1" rows="1" placeholder="Type a message.."></textarea>
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
                     </form>
                 </div>
             </div>
@@ -99,6 +99,6 @@
 
     </section>
     <!--==================================
-                                                            Chatting Application End
-                                                        ===================================-->
+                                                                            Chatting Application End
+                                                                        ===================================-->
 @endsection

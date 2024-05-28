@@ -5,6 +5,9 @@
  */
 
 var temporaryMsgId = 0;
+const messegeForm = $(".messege-form"),
+    messageInput = $(".message-input"),
+    csrf_token = $("meta[name=csrf_token]").attr("content");
 
 const getMessengerId = () => $("meta[name=id]").attr("content");
 const setMessengerId = (id) => $("meta[name=id]").attr("content", id);
@@ -143,6 +146,40 @@ function IDinfo(id) {
         },
     });
 }
+/**
+ * --------------------------------
+ * Send Messege
+ * --------------------------------
+ */
+function sendMessege() {
+    temporaryMsgId += 1;
+    let tempId = `temp_${temporaryMsgId}`;
+    const inputValue = messageInput.val();
+    // const csrf_token = $("meta[name=csrf_token]").attr("content");
+    if (inputValue.length > 0) {
+        const formData = new FormData($(".messege-form")[0]);
+        formData.append("id", getMessengerId());
+        formData.append("temporaryMsgId", tempId);
+        formData.append("_token", csrf_token);
+        const formObject = {};
+
+        formData.forEach((value, key) => {
+            formObject[key] = value;
+        });
+
+        console.log(formObject);
+        $.ajax({
+            method: "POST",
+            url: "messenger/send-message",
+            data: { formData },
+            dataType: "JSON",
+            processData: false,
+            contentType: false,
+            success: function (data) {},
+            error: function (xhr, status, error) {},
+        });
+    }
+}
 
 /**
  * ----------------
@@ -179,5 +216,11 @@ $(document).ready(function () {
         let userId = $(this).attr("data-id");
         setMessengerId(userId);
         IDinfo(userId);
+    });
+
+    // send messege
+    $(".messege-form").on("submit", function (e) {
+        e.preventDefault();
+        sendMessege();
     });
 });

@@ -54,4 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('messenger/search', [MessengerController::class, 'search'])->name('messenger.search');
     //getting user data with ajax for view update
     Route::get('messenger/id-info', [MessengerController::class, 'fetchIdInfo'])->name('messenger.id-info');
+
+    //send message with ajax
+    Route::post('messenger/send-message', [MessengerController::class, 'sendMessage'])->name('messenger.send-message');
 });
