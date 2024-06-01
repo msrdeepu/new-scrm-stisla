@@ -8,7 +8,7 @@
         <div class="user_photo user-sidebar-avatar">
             <img src="images/author_img_2.jpg" alt="User" class="img-fluid">
         </div>
-        <h3 class="user_name">Hasan Masud</h3>
+        <h3 class="user_name">Sandeep</h3>
         <span class="user_unique_name"></span>
         {{-- <a href="#" class="delete_chat">Delete Conversation</a> --}}
         <p class="photo_gallery">Shared Photos</p>

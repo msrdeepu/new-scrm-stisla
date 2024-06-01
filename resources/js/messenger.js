@@ -6,6 +6,7 @@
 
 var temporaryMsgId = 0;
 const messegeForm = $(".messege-form"),
+    messageBoxContainer = $(".wsus__chat_area_body"),
     messageInput = $(".message-input"),
     csrf_token = $("meta[name=csrf_token]").attr("content");
 
@@ -155,7 +156,6 @@ function sendMessege() {
     temporaryMsgId += 1;
     let tempId = `temp_${temporaryMsgId}`;
     const inputValue = messageInput.val();
-    // const csrf_token = $("meta[name=csrf_token]").attr("content");
     if (inputValue.length > 0) {
         const formData = new FormData($(".messege-form")[0]);
         formData.append("id", getMessengerId());
@@ -167,18 +167,41 @@ function sendMessege() {
             formObject[key] = value;
         });
 
-        console.log(formObject);
         $.ajax({
             method: "POST",
             url: "messenger/send-message",
-            data: { formData },
+            data: formData,
             dataType: "JSON",
             processData: false,
             contentType: false,
-            success: function (data) {},
+            beforeSend: function () {
+                messageBoxContainer.append(
+                    sendTempMessegeCard(inputValue, tempId)
+                );
+                messegeForm.trigger("reset");
+                $(".emojionearea-editor").text("");
+            },
+            success: function (data) {
+                const tempMsgCardElement = messageBoxContainer.find(
+                    `.messege-card[data-id=${data.tempId}]`
+                );
+                tempMsgCardElement.before(data.message);
+                tempMsgCardElement.remove();
+            },
             error: function (xhr, status, error) {},
         });
     }
+}
+
+function sendTempMessegeCard(message, tempId) {
+    return ` <div class="wsus__single_chat_area messege-card" data-id="${tempId}">
+                <div class="wsus__single_chat chat_right">
+                    <p class="messages">${message}</p>
+                    <span class="clock"><i class="fas fa-clock"></i> 5h ago</span>
+                    <a class="action" href="#"><i class="fas fa-trash"></i></a>
+                </div>
+            </div>
+            `;
 }
 
 /**

@@ -54,7 +54,7 @@
                     <span class="active"></span>
                 </div>
                 <div class="text">
-                    <h5>Jubaydul islam</h5>
+                    <h5>Sandeep</h5>
                     <p><span>You</span> Hi, What"s your name</p>
                 </div>
                 <span class="time">10m ago</span>
