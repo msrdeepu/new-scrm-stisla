@@ -57,4 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //send message with ajax
     Route::post('messenger/send-message', [MessengerController::class, 'sendMessage'])->name('messenger.send-message');
+
+    //fetch messege
+    Route::get('messenger/fetch-messages', [MessengerController::class, 'fetchMessages'])->name('messenger.fetch-messages');
 });

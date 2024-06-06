@@ -2,13 +2,17 @@
 
 @section('content')
     <!--==================================Chatting Application Start===================================-->
-    <section class="wsus__chat_app">
+    <section class="wsus__chat_app show_info">
 
         @include('messenger.layouts.user-list-sidebar')
 
         <div class="wsus__chat_area">
 
             <div class="wsus__message_paceholder d-none"></div>
+            <div class="wsus__message_paceholder_black d-flex justify-content-center align-items-center">
+                <span class="nothing_share badge bg-secondary text-white select_a_user">Select a chat to start
+                    conversation</span>
+            </div>
 
             <div class="wsus__chat_area_header">
                 <div class="header_left messenger-header">
@@ -87,6 +91,6 @@
 
     </section>
     <!--==================================
-                                                                                                                                            Chatting Application End
-                                                                                                                                        ===================================-->
+                                                                                                                                                                                                                            Chatting Application End
+                                                                                                                                                                                                                        ===================================-->
 @endsection

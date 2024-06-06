@@ -90,4 +90,10 @@ class MessengerController extends Controller
     {
         return view('messenger.components.message-card', compact('message', 'attachment'))->render();
     }
+
+    //fetch messeges from database
+    public function fetchMessages(Request $request)
+    {
+        dd($request->all());
+    }
 }
