@@ -19,8 +19,8 @@
                     <span class="back_to_list">
                         <i class="fas fa-arrow-left"></i>
                     </span>
-                    <img src="images/author_img_2.jpg" alt="User" class="img-fluid">
-                    <h4 class="messege-header-title">Sandeep</h4>
+                    <img src="" alt="User" class="img-fluid">
+                    <h4 class="messege-header-title"></h4>
                 </div>
                 <div class="header_right">
                     <a href="#" class="favourite"><i class="fas fa-star"></i></a>
@@ -31,34 +31,7 @@
 
             <div class="wsus__chat_area_body">
 
-                <div class="wsus__single_chat_area">
-                    <div class="wsus__single_chat">
-                        <p class="messages">Hi, How are you ?</p>
-                        <span class="time"> 5h ago</span>
-                        <a class="action" href="#"><i class="fas fa-trash"></i></a>
-                    </div>
-                </div>
 
-                <div class="wsus__single_chat_area">
-                    <div class="wsus__single_chat chat_right">
-                        <p class="messages">I'm fine, What about you ?</p>
-                        <span class="time"> 5h ago</span>
-                        <a class="action" href="#"><i class="fas fa-trash"></i></a>
-                    </div>
-                </div>
-
-
-
-                <div class="wsus__single_chat_area">
-                    <div class="wsus__single_chat">
-                        <p class="messages">You can give a photo ?</p>
-                        <a class="venobox" data-gall="gallery01" href="images/chat_img.png">
-                            <img src="backend/cassets/images/chat_img.png" alt="gallery1" class="img-fluid w-100">
-                        </a>
-                        <span class="time"> 5h ago</span>
-                        <a class="action" href="#"><i class="fas fa-trash"></i></a>
-                    </div>
-                </div>
 
 
 
@@ -91,6 +64,6 @@
 
     </section>
     <!--==================================
-                                                                                                                                                                                                                            Chatting Application End
-                                                                                                                                                                                                                        ===================================-->
+                                                                                                                                                                                                                                    Chatting Application End
+                                                                                                                                                                                                                                ===================================-->
 @endsection

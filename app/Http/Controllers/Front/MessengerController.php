@@ -94,6 +94,24 @@ class MessengerController extends Controller
     //fetch messeges from database
     public function fetchMessages(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        $messages = Message::where('from_id', Auth::user()->id)->where('to_id', $request->id)
+            ->orWhere('from_id', $request->id)->where('to_id', Auth::user()->id)
+            ->latest()->paginate(20);
+        $response = [
+            'last_page' => $messages->lastPage(),
+            'messages' => ''
+        ];
+
+        //we have to make a little validation
+
+        $allMessages = '';
+        foreach ($messages->reverse() as $message) {
+            $allMessages .= $this->messageCard($message, $message->attachment ? true : false);
+        }
+
+        $response['messages'] = $allMessages;
+
+        return response()->json($response);
     }
 }

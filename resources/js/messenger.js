@@ -189,7 +189,7 @@ function sendMessege() {
                         sendTempMessegeCard(inputValue, tempId)
                     );
                 }
-
+                scrollToBottom(messageBoxContainer);
                 messageFormReset();
             },
             success: function (data) {
@@ -253,9 +253,26 @@ function fetchMessages(id) {
             id: id,
             page: messagePage,
         },
-        success: function (data) {},
+        success: function (data) {
+            messageBoxContainer.html(data.messages);
+            scrollToBottom(messageBoxContainer);
+        },
         error: function (xhr, status, error) {},
     });
+}
+
+/**
+ * ----------------
+ * slide to bottom
+ * ---------------
+ */
+
+function scrollToBottom(container) {
+    $(container)
+        .stop()
+        .animate({
+            scrollTop: $(container)[0].scrollHeight,
+        });
 }
 
 /**
