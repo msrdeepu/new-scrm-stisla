@@ -245,20 +245,32 @@ let noMoreMessages = false;
 let messegesLoading = false;
 
 function fetchMessages(id) {
-    $.ajax({
-        method: "GET",
-        url: "messenger/fetch-messages",
-        data: {
-            _token: csrf_token,
-            id: id,
-            page: messagePage,
-        },
-        success: function (data) {
-            messageBoxContainer.html(data.messages);
-            scrollToBottom(messageBoxContainer);
-        },
-        error: function (xhr, status, error) {},
-    });
+    if (!noMoreMessages) {
+        $.ajax({
+            method: "GET",
+            url: "messenger/fetch-messages",
+            data: {
+                _token: csrf_token,
+                id: id,
+                page: messagePage,
+            },
+            success: function (data) {
+                messageBoxContainer.html(data.messages);
+                scrollToBottom(messageBoxContainer);
+
+                if (messagePage == 1) {
+                    messageBoxContainer.html(data.messages);
+                    scrollToBottom(messageBoxContainer);
+                } else {
+                    messageBoxContainer.prepend(data.messages);
+                }
+                // pagination lock and page increment
+                noMoreMessages = messagePage >= data?.last_page;
+                if (!noMoreMessages) messagePage += 1;
+            },
+            error: function (xhr, status, error) {},
+        });
+    }
 }
 
 /**
@@ -329,4 +341,13 @@ $(document).ready(function () {
         messageFormReset();
         $(".emojionearea-editor").text("");
     });
+
+    //message pagination
+    actionOnScroll(
+        ".wsus__chat_area_body",
+        function () {
+            fetchMessages(getMessengerId());
+        },
+        true
+    );
 });
