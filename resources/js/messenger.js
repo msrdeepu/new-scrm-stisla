@@ -131,7 +131,7 @@ function IDinfo(id) {
         },
         success: function (data) {
             // fetch messeges
-            fetchMessages(data.fetch.id);
+            fetchMessages(data.fetch.id, true);
             // fetch messeges
             $(".messenger-header").find("img").attr("src", data.fetch.avatar);
             $(".messenger-header").find("h4").text(data.fetch.name);
@@ -244,7 +244,12 @@ let messagePage = 1;
 let noMoreMessages = false;
 let messegesLoading = false;
 
-function fetchMessages(id) {
+function fetchMessages(id, newFetch = false) {
+    if (newFetch) {
+        messagePage = 1;
+        noMoreMessages = false;
+    }
+    // if (!noMoreMessages && !messegesLoading) {
     if (!noMoreMessages) {
         $.ajax({
             method: "GET",
@@ -254,7 +259,20 @@ function fetchMessages(id) {
                 id: id,
                 page: messagePage,
             },
+            beforeSend: function () {
+                messegesLoading = true;
+                let loader = `
+                <div class="text-center messages-loader">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            `;
+                messageBoxContainer.prepend(loader);
+            },
             success: function (data) {
+                //remove loader on success
+                messageBoxContainer.find(".messages-loader").remove();
                 messageBoxContainer.html(data.messages);
                 scrollToBottom(messageBoxContainer);
 
@@ -262,12 +280,43 @@ function fetchMessages(id) {
                     messageBoxContainer.html(data.messages);
                     scrollToBottom(messageBoxContainer);
                 } else {
+                    const lastMsg = $(messageBoxContainer)
+                        .find(".message-card")
+                        .first();
+                    const curOffset =
+                        lastMsg.offset().top - messageBoxContainer.scrollTop();
                     messageBoxContainer.prepend(data.messages);
+                    messageBoxContainer.scrollTop(
+                        lastMsg.offset().top - curOffset
+                    );
                 }
+
                 // pagination lock and page increment
                 noMoreMessages = messagePage >= data?.last_page;
                 if (!noMoreMessages) messagePage += 1;
+
+                disableChatBoxLoader();
             },
+            error: function (xhr, status, error) {},
+        });
+    }
+}
+
+/**
+ * Fetch contscts
+ */
+
+let contactsPage = 1;
+let noMoreContacts = false;
+let contactLoading = false;
+
+function getContacts() {
+    if (!contactLoading && !noMoreContacts) {
+        $.ajax({
+            method: "GET",
+            url: "/messenger/fetch-contscts",
+            data: { page: contactsPage },
+            success: function (data) {},
             error: function (xhr, status, error) {},
         });
     }
@@ -292,6 +341,8 @@ function scrollToBottom(container) {
  * On load DOM
  * ---------------
  */
+
+getContacts();
 
 $(document).ready(function () {
     $("#select_file").change(function () {

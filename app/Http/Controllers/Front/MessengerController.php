@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Message;
 use App\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MessengerController extends Controller
 {
@@ -92,7 +93,7 @@ class MessengerController extends Controller
     }
 
     //fetch messeges from database
-    public function fetchMessages(Request $request)
+    function fetchMessages(Request $request)
     {
         // dd($request->all());
         $messages = Message::where('from_id', Auth::user()->id)->where('to_id', $request->id)
@@ -100,10 +101,14 @@ class MessengerController extends Controller
             ->latest()->paginate(20);
         $response = [
             'last_page' => $messages->lastPage(),
+            'last_message' => $messages->last(),
             'messages' => ''
         ];
 
-        //we have to make a little validation
+        if (count($messages) < 1) {
+            $response['messages'] = '<div class="h-100 d-flex flex-row justify-content-center align-items-center"><p class="p-3 badge bg-primary text-bold">Say Hi and start Messaging</p></div>';
+            return response()->json($response);
+        }
 
         $allMessages = '';
         foreach ($messages->reverse() as $message) {
@@ -113,5 +118,41 @@ class MessengerController extends Controller
         $response['messages'] = $allMessages;
 
         return response()->json($response);
+    }
+
+    //fetch contacts from database
+    function fetchContacts(Request $request)
+    {
+        // $users = Message::join('users', function ($join) {
+        //     $join->on('messages.from_id', '=', 'users.id')
+        //         ->orOn('messages.to_id', '=', 'users.id');
+        // })
+        //     ->where(function ($q) {
+        //         $q->where('messages.from_id', Auth::user()->id)
+        //             ->orWhere('messages.to_id', Auth::user()->id);
+        //     })
+        //     ->where('users.id', '!=', Auth::user()->id)
+        //     ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
+        //     ->orderBy('max_created_at', 'desc')
+        //     ->groupBy('users.id')
+        //     ->paginate(10);
+
+        // return $users;
+
+        $users = Message::join('users', function ($join) {
+            $join->on('messages.from_id', '=', 'users.id')
+                ->orWhere('messages.to_id', '=', 'users.id');
+        })
+            ->where(function ($q) {
+                $q->where('messages.from_id', Auth::user()->id)
+                    ->orWhere('messages.to_id', Auth::user()->id);
+            })
+            ->where('users.id', '!=', Auth::user()->id)
+            ->select('users.id', 'users.name', 'users.email', DB::raw('MAX(messages.created_at) as max_created_at'))
+            ->orderBy('max_created_at', 'desc')
+            ->groupBy('users.id', 'users.name', 'users.email')
+            ->paginate(10);
+
+        return $users;
     }
 }

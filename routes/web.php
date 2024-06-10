@@ -60,4 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //fetch messege
     Route::get('messenger/fetch-messages', [MessengerController::class, 'fetchMessages'])->name('messenger.fetch-messages');
+
+    //fetch contacs
+    Route::get('messenger/fetch-contscts', [MessengerController::class, 'fetchContacts'])->name('messenger.fetch-contacts');
 });

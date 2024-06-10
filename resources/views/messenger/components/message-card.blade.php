@@ -2,7 +2,7 @@
     @php
         $imagePath = json_decode($message->attachment);
     @endphp
-    <div class="wsus__single_chat_area">
+    <div class="wsus__single_chat_area message-card" data-id='{{ $message->id }}'>
         <div class="wsus__single_chat {{ $message->from_id === auth()->user()->id ? 'chat_right' : '' }}">
             <a class="venobox" data-gall="gallery01" href="{{ @asset($imagePath) }}">
                 <img src="{{ @asset($imagePath) }}" alt="" class="img-fluid w-100">
@@ -16,7 +16,7 @@
         </div>
     </div>
 @else
-    <div class="wsus__single_chat_area">
+    <div class="wsus__single_chat_area message-card">
         <div class="wsus__single_chat {{ $message->from_id === auth()->user()->id ? 'chat_right' : '' }}">
             <p class="messages">{{ $message->body }}</p>
             <span class="time"> {{ $message->created_at->timezone('Asia/Kolkata')->format('h:i A') }}</span>
