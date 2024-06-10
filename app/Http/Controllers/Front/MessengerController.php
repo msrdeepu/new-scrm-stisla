@@ -123,6 +123,7 @@ class MessengerController extends Controller
     //fetch contacts from database
     function fetchContacts(Request $request)
     {
+        // instructor query
         // $users = Message::join('users', function ($join) {
         //     $join->on('messages.from_id', '=', 'users.id')
         //         ->orOn('messages.to_id', '=', 'users.id');
@@ -139,18 +140,20 @@ class MessengerController extends Controller
 
         // return $users;
 
+        // instructor query end
+
         $users = Message::join('users', function ($join) {
             $join->on('messages.from_id', '=', 'users.id')
-                ->orWhere('messages.to_id', '=', 'users.id');
+                ->orOn('messages.to_id', '=', 'users.id');
         })
             ->where(function ($q) {
                 $q->where('messages.from_id', Auth::user()->id)
                     ->orWhere('messages.to_id', Auth::user()->id);
             })
             ->where('users.id', '!=', Auth::user()->id)
-            ->select('users.id', 'users.name', 'users.email', DB::raw('MAX(messages.created_at) as max_created_at'))
+            ->select('users.id', 'users.name', 'users.email', 'users.avatar', DB::raw('MAX(messages.created_at) as max_created_at'))
             ->orderBy('max_created_at', 'desc')
-            ->groupBy('users.id', 'users.name', 'users.email')
+            ->groupBy('users.id', 'users.name', 'users.email', 'users.avatar')
             ->paginate(10);
 
         return $users;
