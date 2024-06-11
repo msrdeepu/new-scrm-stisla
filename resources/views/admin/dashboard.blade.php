@@ -68,5 +68,10 @@
             </div>
         </div>
 
+        <div>
+            <h3>All Messages</h3>
+
+        </div>
+
     </section>
 @endsection
