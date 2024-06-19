@@ -156,6 +156,16 @@ class MessengerController extends Controller
             ->groupBy('users.id', 'users.name', 'users.email', 'users.avatar')
             ->paginate(10);
 
-        return $users;
+        if (count($users) > 0) {
+            $contacts = '';
+            foreach ($users as $user) {
+            }
+        }
+    }
+    function getContactItem($user)
+    {
+        $lastMessage = Message::where('from_id', Auth::user()->id)->where('to_id', $user->id)
+            ->orWhere('from_id', $user->id)->where('to_id', Auth::user()->id)
+            ->latest()->first();
     }
 }
