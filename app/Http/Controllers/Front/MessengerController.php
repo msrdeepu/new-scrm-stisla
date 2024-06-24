@@ -178,4 +178,12 @@ class MessengerController extends Controller
             'contact_item' => $contactItem
         ]);
     }
+
+    function makeSeen(Request $request)
+    {
+        Message::where('from_id', $request->id)
+            ->where('to_id', Auth::user()->id)
+            ->where('seen', 0)
+            ->update(['seen' => 1]);
+    }
 }

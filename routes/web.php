@@ -66,4 +66,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     //update contacts
     Route::get('messenger/update-contsct-item', [MessengerController::class, 'updateContactItem'])->name('messenger.update-contact-item');
+    //update message view status
+    Route::post('messenger/make-seen', [MessengerController::class, 'makeSeen'])->name('messenger.make-seen');
 });

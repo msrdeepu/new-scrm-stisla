@@ -9,6 +9,7 @@ const messegeForm = $(".messege-form"),
     messageBoxContainer = $(".wsus__chat_area_body"),
     messageInput = $(".message-input"),
     csrf_token = $("meta[name=csrf_token]").attr("content"),
+    auth_id = $("meta[name=auth_id]").attr("content"),
     messengerContactBox = $(".messenger-contacts");
 
 const getMessengerId = () => $("meta[name=id]").attr("content");
@@ -276,6 +277,8 @@ function fetchMessages(id, newFetch = false) {
             success: function (data) {
                 //remove loader on success
                 messageBoxContainer.find(".messages-loader").remove();
+                //make messages seen
+                makeSeen(true);
                 messageBoxContainer.html(data.messages);
                 scrollToBottom(messageBoxContainer);
 
@@ -357,20 +360,42 @@ function getContacts() {
  */
 
 function updateContactItem(user_id) {
+    if (user_id != auth_id) {
+        $.ajax({
+            method: "GET",
+            url: "/messenger/update-contsct-item",
+            data: { user_id: user_id },
+            success: function (data) {
+                messengerContactBox
+                    .find(`.messenger-list-item[data-id="${user_id}"]`)
+                    .remove();
+                messengerContactBox.prepend(data.contact_item);
+                if (user_id == getMessengerId()) {
+                    updateSelectedContact(user_id);
+                }
+            },
+            error: function (xhr, status, error) {},
+        });
+    }
+}
+
+/**
+ * Make Messages Seen
+ */
+
+function makeSeen(status) {
+    $(`.messenger-list-item[data-id="${getMessengerId()}"]`)
+        .find(".unseen_count")
+        .remove();
     $.ajax({
-        method: "GET",
-        url: "/messenger/update-contsct-item",
-        data: { user_id: user_id },
-        success: function (data) {
-            messengerContactBox
-                .find(`.messenger-list-item[data-id="${user_id}"]`)
-                .remove();
-            messengerContactBox.prepend(data.contact_item);
-            if (user_id == getMessengerId()) {
-                updateSelectedContact(user_id);
-            }
+        method: "POST",
+        url: "/messenger/make-seen",
+        data: {
+            _token: csrf_token,
+            id: getMessengerId(),
         },
-        error: function (xhr, status, error) {},
+        success: function () {},
+        error: function () {},
     });
 }
 
