@@ -123,24 +123,6 @@ class MessengerController extends Controller
     //fetch contacts from database
     function fetchContacts(Request $request)
     {
-        // instructor query
-        // $users = Message::join('users', function ($join) {
-        //     $join->on('messages.from_id', '=', 'users.id')
-        //         ->orOn('messages.to_id', '=', 'users.id');
-        // })
-        //     ->where(function ($q) {
-        //         $q->where('messages.from_id', Auth::user()->id)
-        //             ->orWhere('messages.to_id', Auth::user()->id);
-        //     })
-        //     ->where('users.id', '!=', Auth::user()->id)
-        //     ->select('users.*', DB::raw('MAX(messages.created_at) max_created_at'))
-        //     ->orderBy('max_created_at', 'desc')
-        //     ->groupBy('users.id')
-        //     ->paginate(10);
-
-        // return $users;
-
-        // instructor query end
 
         $users = Message::join('users', function ($join) {
             $join->on('messages.from_id', '=', 'users.id')
@@ -159,13 +141,41 @@ class MessengerController extends Controller
         if (count($users) > 0) {
             $contacts = '';
             foreach ($users as $user) {
+                $contacts .= $this->getContactItem($user);
             }
+        } else {
+            $contacts = '<p>Yout Contacts List is Empty</p>';
         }
+        return response()->json([
+            'contacts' => $contacts,
+            'last_page' => $users->lastPage()
+        ]);
     }
     function getContactItem($user)
     {
         $lastMessage = Message::where('from_id', Auth::user()->id)->where('to_id', $user->id)
             ->orWhere('from_id', $user->id)->where('to_id', Auth::user()->id)
             ->latest()->first();
+
+        $unseenCounter = Message::where('from_id', $user->id)->where('to_id', Auth::user()->id)->where('seen', 0)->count();
+
+
+        return view('messenger.components.contact-list-item', compact('lastMessage', 'unseenCounter', 'user'))->render();
+    }
+
+    function updateContactItem(Request $request)
+    {
+        $user = User::where('id', $request->user_id)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'user not found'
+            ], 401);
+        }
+
+        $contactItem = $this->getContactItem($user);
+        return response()->json([
+            'contact_item' => $contactItem
+        ]);
     }
 }

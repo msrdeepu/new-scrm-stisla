@@ -47,20 +47,11 @@
 
     <div class="wsus__user_list_area">
         <div class="top">All Messages</div>
-        <div class="wsus__user_list_area_height">
-            <div class="wsus__user_list_item">
-                <div class="img">
-                    <img src="images/author_img_1.jpg" alt="User" class="img-fluid">
-                    <span class="active"></span>
-                </div>
-                <div class="text">
-                    <h5>Sandeep</h5>
-                    <p><span>You</span> Hi, What"s your name</p>
-                </div>
-                <span class="time">10m ago</span>
-            </div>
+
+        <div class="messenger-contacts wsus__user_list_area_height">
 
         </div>
+
 
         <!-- <div class="wsus__user_list_liading">
                         <div class="spinner-border text-light" role="status">

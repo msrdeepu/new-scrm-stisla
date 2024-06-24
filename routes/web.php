@@ -63,4 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //fetch contacs
     Route::get('messenger/fetch-contscts', [MessengerController::class, 'fetchContacts'])->name('messenger.fetch-contacts');
+
+    //update contacts
+    Route::get('messenger/update-contsct-item', [MessengerController::class, 'updateContactItem'])->name('messenger.update-contact-item');
 });

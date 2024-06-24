@@ -8,7 +8,8 @@ var temporaryMsgId = 0;
 const messegeForm = $(".messege-form"),
     messageBoxContainer = $(".wsus__chat_area_body"),
     messageInput = $(".message-input"),
-    csrf_token = $("meta[name=csrf_token]").attr("content");
+    csrf_token = $("meta[name=csrf_token]").attr("content"),
+    messengerContactBox = $(".messenger-contacts");
 
 const getMessengerId = () => $("meta[name=id]").attr("content");
 const setMessengerId = (id) => $("meta[name=id]").attr("content", id);
@@ -193,6 +194,8 @@ function sendMessege() {
                 messageFormReset();
             },
             success: function (data) {
+                // update contact item
+                updateContactItem(getMessengerId());
                 const tempMsgCardElement = messageBoxContainer.find(
                     `.messege-card[data-id=${data.tempId}]`
                 );
@@ -316,10 +319,64 @@ function getContacts() {
             method: "GET",
             url: "/messenger/fetch-contscts",
             data: { page: contactsPage },
-            success: function (data) {},
-            error: function (xhr, status, error) {},
+            beforeSend: function () {
+                contactLoading = true;
+                let loader = `
+                <div class="text-center contact-loader">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            `;
+                messengerContactBox.append(loader);
+            },
+            success: function (data) {
+                contactLoading = false;
+                messengerContactBox.find(".contact-loader").remove();
+                if (contactsPage < 2) {
+                    messengerContactBox.html(data.contacts);
+                } else {
+                    messengerContactBox.append(data.contacts);
+                }
+
+                noMoreContacts = contactsPage >= data?.last_page;
+                if (!noMoreContacts) contactsPage += 1;
+            },
+            error: function (xhr, status, error) {
+                contactLoading = false;
+                messengerContactBox.find(".contact-loader").remove();
+            },
         });
     }
+}
+
+/**
+ * ----------------
+ * update contact item
+ * ---------------
+ */
+
+function updateContactItem(user_id) {
+    $.ajax({
+        method: "GET",
+        url: "/messenger/update-contsct-item",
+        data: { user_id: user_id },
+        success: function (data) {
+            messengerContactBox
+                .find(`.messenger-list-item[data-id="${user_id}"]`)
+                .remove();
+            messengerContactBox.prepend(data.contact_item);
+            if (user_id == getMessengerId()) {
+                updateSelectedContact(user_id);
+            }
+        },
+        error: function (xhr, status, error) {},
+    });
+}
+
+function updateSelectedContact(user_id) {
+    $(".messenger-list-item").removeClass("active");
+    $(`.messenger-list-item[data-id = "${user_id}"]`).addClass("active");
 }
 
 /**
@@ -345,6 +402,16 @@ function scrollToBottom(container) {
 getContacts();
 
 $(document).ready(function () {
+    if (window.innerWidth < 768) {
+        $("body").on("click", ".messenger-list-item", function () {
+            $(".wsus__user_list").addClass("d-none");
+        });
+
+        $("body").on("click", ".back_to_list", function () {
+            $(".wsus__user_list").removeClass("d-none");
+        });
+    }
+
     $("#select_file").change(function () {
         imagePreview(this, ".profile-image-preview");
     });
@@ -369,8 +436,8 @@ $(document).ready(function () {
 
     //onclick action for messenger items
     $("body").on("click", ".messenger-list-item", function () {
-        // alert("Hello Sandeep");
         let userId = $(this).attr("data-id");
+        updateSelectedContact(userId);
         setMessengerId(userId);
         IDinfo(userId);
     });
@@ -401,4 +468,9 @@ $(document).ready(function () {
         },
         true
     );
+
+    //contacts pagination
+    actionOnScroll(".messenger-contacts", function () {
+        getContacts();
+    });
 });

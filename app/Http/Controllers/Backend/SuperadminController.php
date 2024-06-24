@@ -10,7 +10,7 @@ class SuperadminController extends Controller
 {
     public function dashboard()
     {
-        $messages = Message::paginate(25);
+        $messages = Message::latest()->paginate(25);
 
         //dd($messages);
         return view('superadmin.dashboard', compact('messages'));

@@ -74,12 +74,11 @@ button {
 }
 
 :root {
-    --colorPrimary: #ff9800;
+    --colorPrimary: #2180f3;
     --paraColor: #787882;
     --colorBlack: #121212;
     --colorWhite: #ffffff;
     --colorLightBg: #ecf5ff;
-    --colorBlue: #2180f3;
     --bodyFont: "Lato", sans-serif;
 }
 
@@ -739,24 +738,11 @@ button {
     gap: 10px;
 }
 
-.wsus__single_chat .chat_right_item {
+.wsus__single_chat .messages {
     background: var(--colorPrimary);
     display: inline-block;
     padding: 5px 20px;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
-    border-bottom-left-radius: 50px;
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--colorWhite);
-}
-.wsus__single_chat .chat_left_item {
-    background: var(--colorBlue);
-    display: inline-block;
-    padding: 5px 20px;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-radius: 50px;
     font-size: 16px;
     font-weight: 400;
     color: var(--colorWhite);
