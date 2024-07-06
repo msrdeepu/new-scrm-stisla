@@ -134,6 +134,9 @@ function IDinfo(id) {
         success: function (data) {
             // fetch messeges
             fetchMessages(data.fetch.id, true);
+            data.favorite == 1
+                ? $(".favourite").addClass("active")
+                : $(".favourite").removeClass("active");
             // fetch messeges
             $(".messenger-header").find("img").attr("src", data.fetch.avatar);
             $(".messenger-header").find("h4").text(data.fetch.name);
@@ -399,6 +402,30 @@ function makeSeen(status) {
     });
 }
 
+/**
+ * Make Favourite
+ */
+
+function star(user_id) {
+    $(".favourite").toggleClass("active");
+    $.ajax({
+        method: "POST",
+        url: "messenger/favorite",
+        data: {
+            _token: csrf_token,
+            id: user_id,
+        },
+        success: function (data) {
+            if (data.status == "added") {
+                notyf.success("Added to Favourite List");
+            } else {
+                notyf.success("Removed from Favourite List");
+            }
+        },
+        error: function (xhr, status, error) {},
+    });
+}
+
 function updateSelectedContact(user_id) {
     $(".messenger-list-item").removeClass("active");
     $(`.messenger-list-item[data-id = "${user_id}"]`).addClass("active");
@@ -497,5 +524,11 @@ $(document).ready(function () {
     //contacts pagination
     actionOnScroll(".messenger-contacts", function () {
         getContacts();
+    });
+
+    //add/remove favorite list
+    $(".favourite").on("click", function (e) {
+        e.preventDefault();
+        star(getMessengerId());
     });
 });

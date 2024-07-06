@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\Favourite;
 use App\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -50,8 +51,11 @@ class MessengerController extends Controller
     {
         $fetch = User::where('id', $request['id'])->first();
 
+        $favorite = Favourite::where(['user_id' => Auth::user()->id, 'favourite_id' => $fetch->id])->exists();
+
         return response()->json([
-            'fetch' => $fetch
+            'fetch' => $fetch,
+            'favorite' => $favorite
         ]);
     }
 
@@ -185,5 +189,28 @@ class MessengerController extends Controller
             ->where('to_id', Auth::user()->id)
             ->where('seen', 0)
             ->update(['seen' => 1]);
+    }
+
+
+    //add/remove favorite list
+
+    function favorite(Request $request)
+    {
+        //dd($request->all());
+        $query = Favourite::where(['user_id' => Auth::user()->id, 'favourite_id' => $request->id]);
+        $favoriteStatus = $query->exists();
+
+        if (!$favoriteStatus) {
+            $star = new Favourite();
+            $star->user_id = Auth::user()->id;
+            $star->favourite_id = $request->id;
+            $star->save();
+
+            return response(['status' => 'added']);
+        } else {
+            $query->delete();
+
+            return response(['status' => 'removed']);
+        }
     }
 }
