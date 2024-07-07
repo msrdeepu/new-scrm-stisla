@@ -64,6 +64,6 @@
 
     </section>
     <!--==================================
-                                                                                                                                                                                                                                                Chatting Application End
-                                                                                                                                                                                                                                            ===================================-->
+                                                                                                                                                                                                                                                            Chatting Application End
+                                                                                                                                                                                                                                                        ===================================-->
 @endsection

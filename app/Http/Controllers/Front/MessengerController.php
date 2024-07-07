@@ -17,7 +17,8 @@ class MessengerController extends Controller
     use FileUploadTrait;
     function index(): View
     {
-        return view('messenger.index');
+        $favoriteList = Favourite::with('user:id,name,avatar')->where('user_id', Auth::user()->id)->get();
+        return view('messenger.index', compact('favoriteList'));
     }
 
     function search(Request $request)
@@ -53,9 +54,20 @@ class MessengerController extends Controller
 
         $favorite = Favourite::where(['user_id' => Auth::user()->id, 'favourite_id' => $fetch->id])->exists();
 
+        $sharedPhotos = Message::where('from_id', Auth::user()->id)->where('to_id', $request->id)->whereNotNull('attachment')
+            ->orWhere('from_id', $request->id)->where('to_id', Auth::user()->id)
+            ->latest()->get();
+
+        $content = '';
+
+        foreach ($sharedPhotos as $photo) {
+            $content .= view('messenger.components.gallery-item', compact('photo'))->render();
+        }
+
         return response()->json([
             'fetch' => $fetch,
-            'favorite' => $favorite
+            'favorite' => $favorite,
+            'shared_photos' => $content
         ]);
     }
 

@@ -70,4 +70,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('messenger/make-seen', [MessengerController::class, 'makeSeen'])->name('messenger.make-seen');
     //favorite contacts
     Route::post('messenger/favorite', [MessengerController::class, 'favorite'])->name('messenger.favorite');
+    //fetch favorite contacts
+    Route::get('messenger/fetch-favorite', [MessengerController::class, 'fetchFavoritesList'])->name('messenger.fetch-favorite');
 });
