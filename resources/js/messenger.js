@@ -232,7 +232,7 @@ function sendTempMessegeCard(message, tempId, attachment = false) {
             </div>
             ${message.length > 0 ? `<p class="messages">${message}</p>` : ""}
             <span class="time"> now</span>
-            <a class="action" href="#"><i class="fas fa-trash"></i></a>
+           
         </div>
     </div>
 `;
@@ -241,7 +241,6 @@ function sendTempMessegeCard(message, tempId, attachment = false) {
         <div class="wsus__single_chat chat_right">
             <p class="messages">${message}</p>
             <span class="clock"><i class="fas fa-clock"></i> now</span>
-            <a class="action" href="#"><i class="fas fa-trash"></i></a>
         </div>
     </div>
     `;
@@ -436,6 +435,38 @@ function star(user_id) {
     });
 }
 
+/**
+ *
+ *Delete Message Feature
+ */
+
+function deleteMessage(message_id) {
+    Swal.fire({
+        title: "Delete Message?",
+        text: "Please Confirm!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                method: "DELETE",
+                url: "/messenger/delete",
+                data: { _token: csrf_token, message_id: message_id },
+                beforeSend: function () {
+                    $(`.message-card[data-id="${message_id}"]`).hide();
+                },
+                success: function (data) {
+                    updateContactItem(getMessengerId());
+                },
+                error: function (xhr, status, error) {},
+            });
+        }
+    });
+}
+
 function updateSelectedContact(user_id) {
     $(".messenger-list-item").removeClass("active");
     $(`.messenger-list-item[data-id = "${user_id}"]`).addClass("active");
@@ -454,6 +485,14 @@ function scrollToBottom(container) {
             scrollTop: $(container)[0].scrollHeight,
         });
 }
+
+function initVenobox() {
+    $(".venobox").venobox();
+}
+
+window.Echo.private("message." + auth_id).listen("Message", (e) => {
+    console.log(e);
+});
 
 /**
  * ----------------
@@ -540,5 +579,12 @@ $(document).ready(function () {
     $(".favourite").on("click", function (e) {
         e.preventDefault();
         star(getMessengerId());
+    });
+
+    //delete message
+    $("body").on("click", ".deleteMessage", function (e) {
+        e.preventDefault();
+        let id = $(this).data("id");
+        deleteMessage(id);
     });
 });

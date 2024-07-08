@@ -12,16 +12,23 @@
             @endif
 
             <span class="time">{{ $message->created_at->timezone('Asia/Kolkata')->format('h:i A') }}</span>
-            <a class="action" href="#"><i class="fas fa-trash"></i></a>
+            @if ($message->from_id === auth()->user()->id)
+                <a class="action deleteMessage" data-id='{{ $message->id }}' href=""><i
+                        class="fas fa-trash"></i></a>
+            @endif
         </div>
     </div>
 @else
-    <div class="wsus__single_chat_area message-card">
+    <div class="wsus__single_chat_area message-card" data-id='{{ $message->id }}'>
         <div class="wsus__single_chat {{ $message->from_id === auth()->user()->id ? 'chat_right' : '' }}">
             <p class="messages {{ $message->from_id === auth()->user()->id ? 'chat_right_item' : 'chat_left_item' }}">
                 {{ $message->body }}</p>
             <span class="time"> {{ $message->created_at->timezone('Asia/Kolkata')->format('h:i A') }}</span>
-            <a class="action" href="#"><i class="fas fa-trash"></i></a>
+            @if ($message->from_id === auth()->user()->id)
+                <a class="action deleteMessage" data-id='{{ $message->id }}' href=""><i
+                        class="fas fa-trash"></i></a>
+            @endif
+
         </div>
     </div>
 @endif

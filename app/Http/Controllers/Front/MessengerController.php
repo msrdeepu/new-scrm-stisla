@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\front;
 
+use App\Events\Message as MessageEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -55,7 +56,7 @@ class MessengerController extends Controller
         $favorite = Favourite::where(['user_id' => Auth::user()->id, 'favourite_id' => $fetch->id])->exists();
 
         $sharedPhotos = Message::where('from_id', Auth::user()->id)->where('to_id', $request->id)->whereNotNull('attachment')
-            ->orWhere('from_id', $request->id)->where('to_id', Auth::user()->id)
+            ->orWhere('from_id', $request->id)->where('to_id', Auth::user()->id)->whereNotNull('attachment')
             ->latest()->get();
 
         $content = '';
@@ -86,9 +87,6 @@ class MessengerController extends Controller
         // store messages in database
         $attachmentPath = $this->uploadFile($request, 'attachment');
 
-
-
-
         $message = new Message();
         $message->from_id = Auth::user()->id;
         $message->to_id = $request->id;
@@ -96,6 +94,10 @@ class MessengerController extends Controller
 
         if ($attachmentPath) $message->attachment = json_encode($attachmentPath);
         $message->save();
+
+        //broadcast event to send message
+
+        MessageEvent::dispatch($message->body, $message->to_id);
 
         return response()->json([
             'message' => $message->attachment ? $this->messageCard($message, true) : $this->messageCard($message),
@@ -224,5 +226,20 @@ class MessengerController extends Controller
 
             return response(['status' => 'removed']);
         }
+    }
+
+
+    //delete message
+    function deleteMessage(Request $request)
+    {
+        $message = Message::findOrFail($request->message_id);
+
+        if ($message->from_id == Auth::user()->id) {
+            $message->delete();
+            return response()->json([
+                'id' => $request->message_id
+            ], 200);
+        }
+        return;
     }
 }
