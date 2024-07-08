@@ -97,7 +97,7 @@ class MessengerController extends Controller
 
         //broadcast event to send message
 
-        MessageEvent::dispatch($message->body, $message->to_id);
+        MessageEvent::dispatch($message);
 
         return response()->json([
             'message' => $message->attachment ? $this->messageCard($message, true) : $this->messageCard($message),

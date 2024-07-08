@@ -10,6 +10,7 @@ const messegeForm = $(".messege-form"),
     messageInput = $(".message-input"),
     csrf_token = $("meta[name=csrf_token]").attr("content"),
     auth_id = $("meta[name=auth_id]").attr("content"),
+    url = $("meta[name=url]").attr("content"),
     messengerContactBox = $(".messenger-contacts");
 
 const getMessengerId = () => $("meta[name=id]").attr("content");
@@ -241,6 +242,33 @@ function sendTempMessegeCard(message, tempId, attachment = false) {
         <div class="wsus__single_chat chat_right">
             <p class="messages">${message}</p>
             <span class="clock"><i class="fas fa-clock"></i> now</span>
+        </div>
+    </div>
+    `;
+    }
+}
+
+function receiveMessageCard(e) {
+    if (e.attachment) {
+        return `  <div class="wsus__single_chat_area messege-card" data-id="${
+            e.id
+        }">
+        <div class="wsus__single_chat chat_left">
+           <a class="venobox" data-gall="gallery ${e.id}" href="${
+            url + e.attachment
+        }">
+                <img src="${url + e.attachment}" alt="" class="img-fluid w-100">
+            </a>
+            ${e.body.length > 0 ? `<p class="messages">${e.body}</p>` : ""}
+            <span class="time"> now</span>
+           
+        </div>
+    </div>
+`;
+    } else {
+        return ` <div class="wsus__single_chat_area messege-card" data-id="${e.id}">
+        <div class="wsus__single_chat chat_left">
+            <p class="messages">${e.body}</p>
         </div>
     </div>
     `;
@@ -492,6 +520,12 @@ function initVenobox() {
 
 window.Echo.private("message." + auth_id).listen("Message", (e) => {
     console.log(e);
+    let message = receiveMessageCard(e);
+    console.log(getMessengerId());
+    if (getMessengerId() == e.from_id) {
+        messageBoxContainer.append(message);
+        scrollToBottom(messageBoxContainer);
+    }
 });
 
 /**
@@ -540,6 +574,7 @@ $(document).ready(function () {
         let userId = $(this).attr("data-id");
         updateSelectedContact(userId);
         setMessengerId(userId);
+        console.log(getMessengerId());
         IDinfo(userId);
     });
 
