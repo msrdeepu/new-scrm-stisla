@@ -268,7 +268,7 @@ function receiveMessageCard(e) {
     } else {
         return ` <div class="wsus__single_chat_area messege-card" data-id="${e.id}">
         <div class="wsus__single_chat chat_left">
-            <p class="messages">${e.body}</p>
+            <p class="messages chat_left_item">${e.body}</p>
         </div>
     </div>
     `;
@@ -518,9 +518,22 @@ function initVenobox() {
     $(".venobox").venobox();
 }
 
+/**
+ * Play Notification Sound
+ */
+
+function playNotificationSound() {
+    const sound = new Audio(`/default/noti.mp3`);
+    sound.play();
+}
+
 window.Echo.private("message." + auth_id).listen("Message", (e) => {
     console.log(e);
     let message = receiveMessageCard(e);
+    if (getMessengerId() != e.from_id) {
+        updateContactItem(e.from_id);
+        playNotificationSound();
+    }
     console.log(getMessengerId());
     if (getMessengerId() == e.from_id) {
         messageBoxContainer.append(message);
