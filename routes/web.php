@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Backend\SuperadminController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\ProviderController;
 use App\Http\Controllers\Front\EmployeeController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\MessengerController;
@@ -44,6 +45,12 @@ require __DIR__ . '/auth.php';
 
 
 Route::get('/superadmin/login', [SuperadminController::class, 'login'])->name('superadmin.login');
+
+
+// social login
+Route::get('/auth/{provider}/redirect', [ProviderController::class, 'redirect']);
+Route::get('/auth/{provider}/callback', [ProviderController::class, 'callback']);
+// social login
 
 
 Route::group(['middleware' => 'auth'], function () {

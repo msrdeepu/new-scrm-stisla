@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -22,6 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'user_name',
+        'provider',
+        'provider_id',
+        'provider_token',
     ];
 
     /**
@@ -42,4 +46,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function generateUserName($username)
+    {
+        if ($username == null) {
+            $userName = Str::lower(Str::random(length: 8));
+        }
+    }
 }

@@ -534,7 +534,7 @@ window.Echo.private("message." + auth_id).listen("Message", (e) => {
         updateContactItem(e.from_id);
         playNotificationSound();
     }
-    console.log(getMessengerId());
+    //console.log(getMessengerId());
     if (getMessengerId() == e.from_id) {
         messageBoxContainer.append(message);
         scrollToBottom(messageBoxContainer);

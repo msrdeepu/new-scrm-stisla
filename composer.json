@@ -12,6 +12,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
+        "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.8",
         "php-flasher/flasher-notyf-laravel": "^1.15",
         "pusher/pusher-php-server": "^7.2"
