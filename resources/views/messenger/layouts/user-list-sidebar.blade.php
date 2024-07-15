@@ -1,9 +1,12 @@
 <div class="wsus__user_list">
     <div class="wsus__user_list_header">
-        <h3>
-            <span><img src="images/chat_list_icon.png" alt="Chat" class="img-fluid"></span>
-            MESSAGES
-        </h3>
+        <a href="/messenger">
+            <h3 style="font-family: sans-serif">
+                <span> <img style="height: 40px" src="{{ asset('backend/cassets/images/chat_list_icon.png') }}"
+                        alt="logo" class="shadow-light "></span>
+                NYRA
+            </h3>
+        </a>
         <span class="setting" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class="fas fa-user-cog"></i>
         </span>

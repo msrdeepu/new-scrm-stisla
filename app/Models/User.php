@@ -52,5 +52,10 @@ class User extends Authenticatable
         if ($username == null) {
             $userName = Str::lower(Str::random(length: 8));
         }
+        if (User::where('username', $username)->exists()) {
+            $newUserName = $username . Str::lower(Str::random(length: 3));
+            $username = self::generateUserName($newUserName);
+        }
+        return $username;
     }
 }

@@ -1,154 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Register &mdash; Stisla</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no"
+            name="viewport"
+        />
+        <title>Register &mdash; Stisla</title>
 
-  <!-- General CSS Files -->
-  <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/modules/fontawesome/css/all.min.css">
+        <!-- General CSS Files -->
+        <link
+            rel="stylesheet"
+            href="assets/modules/bootstrap/css/bootstrap.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="assets/modules/fontawesome/css/all.min.css"
+        />
 
-  <!-- CSS Libraries -->
-  <link rel="stylesheet" href="assets/modules/jquery-selectric/selectric.css">
+        <!-- CSS Libraries -->
+        <link
+            rel="stylesheet"
+            href="assets/modules/jquery-selectric/selectric.css"
+        />
 
-  <!-- Template CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/components.css">
-<!-- Start GA -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+        <!-- Template CSS -->
+        <link rel="stylesheet" href="assets/css/style.css" />
+        <link rel="stylesheet" href="assets/css/components.css" />
+        <!-- Start GA -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
 
-  gtag('config', 'UA-94034622-3');
-</script>
-<!-- /END GA --></head>
+            gtag("config", "UA-94034622-3");
+        </script>
+        <!-- /END GA -->
+    </head>
 
-<body>
-  <div id="app">
-    <section class="section">
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
-            <div class="login-brand">
-              <img src="assets/img/stisla-fill.svg" alt="logo" width="100" class="shadow-light rounded-circle">
+    <body>
+        <section class="vh-100">
+            <div class="container-fluid h-custom">
+                <div
+                    class="row d-flex justify-content-center align-items-center h-100"
+                >
+                    <div class="col-md-9 col-lg-6 col-xl-5">
+                        <img
+                            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                            class="img-fluid"
+                            alt="Sample image"
+                        />
+                    </div>
+                    <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                        <form>
+                            <div
+                                class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
+                            >
+                                <p class="lead fw-normal mb-0 me-3">
+                                    Sign in with
+                                </p>
+                                <button
+                                    type="button"
+                                    data-mdb-button-init
+                                    data-mdb-ripple-init
+                                    class="btn btn-primary btn-floating mx-1"
+                                >
+                                    <i class="fab fa-facebook-f"></i>
+                                </button>
+
+                                <button
+                                    type="button"
+                                    data-mdb-button-init
+                                    data-mdb-ripple-init
+                                    class="btn btn-primary btn-floating mx-1"
+                                >
+                                    <i class="fab fa-twitter"></i>
+                                </button>
+
+                                <button
+                                    type="button"
+                                    data-mdb-button-init
+                                    data-mdb-ripple-init
+                                    class="btn btn-primary btn-floating mx-1"
+                                >
+                                    <i class="fab fa-linkedin-in"></i>
+                                </button>
+                            </div>
+
+                            <div class="divider d-flex align-items-center my-4">
+                                <p class="text-center fw-bold mx-3 mb-0">Or</p>
+                            </div>
+
+                            <!-- Email input -->
+                            <div data-mdb-input-init class="form-outline mb-4">
+                                <input
+                                    type="email"
+                                    id="form3Example3"
+                                    class="form-control form-control-lg"
+                                    placeholder="Enter a valid email address"
+                                />
+                                <label class="form-label" for="form3Example3"
+                                    >Email address</label
+                                >
+                            </div>
+
+                            <!-- Password input -->
+                            <div data-mdb-input-init class="form-outline mb-3">
+                                <input
+                                    type="password"
+                                    id="form3Example4"
+                                    class="form-control form-control-lg"
+                                    placeholder="Enter password"
+                                />
+                                <label class="form-label" for="form3Example4"
+                                    >Password</label
+                                >
+                            </div>
+
+                            <div
+                                class="d-flex justify-content-between align-items-center"
+                            >
+                                <!-- Checkbox -->
+                                <div class="form-check mb-0">
+                                    <input
+                                        class="form-check-input me-2"
+                                        type="checkbox"
+                                        value=""
+                                        id="form2Example3"
+                                    />
+                                    <label
+                                        class="form-check-label"
+                                        for="form2Example3"
+                                    >
+                                        Remember me
+                                    </label>
+                                </div>
+                                <a href="#!" class="text-body"
+                                    >Forgot password?</a
+                                >
+                            </div>
+
+                            <div class="text-center text-lg-start mt-4 pt-2">
+                                <button
+                                    type="button"
+                                    data-mdb-button-init
+                                    data-mdb-ripple-init
+                                    class="btn btn-primary btn-lg"
+                                    style="
+                                        padding-left: 2.5rem;
+                                        padding-right: 2.5rem;
+                                    "
+                                >
+                                    Login
+                                </button>
+                                <p class="small fw-bold mt-2 pt-1 mb-0">
+                                    Don't have an account?
+                                    <a href="#!" class="link-danger"
+                                        >Register</a
+                                    >
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
+            <div
+                class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary"
+            >
+                <!-- Copyright -->
+                <div class="text-white mb-3 mb-md-0">
+                    Copyright © 2020. All rights reserved.
+                </div>
+                <!-- Copyright -->
 
-            <div class="card card-primary">
-              <div class="card-header"><h4>Register</h4></div>
-
-              <div class="card-body">
-                <form method="POST">
-                  <div class="row">
-                    <div class="form-group col-6">
-                      <label for="frist_name">First Name</label>
-                      <input id="frist_name" type="text" class="form-control" name="frist_name" autofocus>
-                    </div>
-                    <div class="form-group col-6">
-                      <label for="last_name">Last Name</label>
-                      <input id="last_name" type="text" class="form-control" name="last_name">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control" name="email">
-                    <div class="invalid-feedback">
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="form-group col-6">
-                      <label for="password" class="d-block">Password</label>
-                      <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="password">
-                      <div id="pwindicator" class="pwindicator">
-                        <div class="bar"></div>
-                        <div class="label"></div>
-                      </div>
-                    </div>
-                    <div class="form-group col-6">
-                      <label for="password2" class="d-block">Password Confirmation</label>
-                      <input id="password2" type="password" class="form-control" name="password-confirm">
-                    </div>
-                  </div>
-
-                  <div class="form-divider">
-                    Your Home
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-6">
-                      <label>Country</label>
-                      <select class="form-control selectric">
-                        <option>Indonesia</option>
-                        <option>Palestine</option>
-                        <option>Syria</option>
-                        <option>Malaysia</option>
-                        <option>Thailand</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-6">
-                      <label>Province</label>
-                      <select class="form-control selectric">
-                        <option>West Java</option>
-                        <option>East Java</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-6">
-                      <label>City</label>
-                      <input type="text" class="form-control">
-                    </div>
-                    <div class="form-group col-6">
-                      <label>Postal Code</label>
-                      <input type="text" class="form-control">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="agree" class="custom-control-input" id="agree">
-                      <label class="custom-control-label" for="agree">I agree with the terms and conditions</label>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">
-                      Register
-                    </button>
-                  </div>
-                </form>
-              </div>
+                <!-- Right -->
+                <div>
+                    <a href="#!" class="text-white me-4">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#!" class="text-white me-4">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#!" class="text-white me-4">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <a href="#!" class="text-white">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                <!-- Right -->
             </div>
-            <div class="simple-footer">
-              Copyright &copy; Stisla 2018
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+        </section>
 
-  <!-- General JS Scripts -->
-  <script src="assets/modules/jquery.min.js"></script>
-  <script src="assets/modules/popper.js"></script>
-  <script src="assets/modules/tooltip.js"></script>
-  <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
-  <script src="assets/modules/moment.min.js"></script>
-  <script src="assets/js/stisla.js"></script>
-  
-  <!-- JS Libraies -->
-  <script src="assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
-  <script src="assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+        <!-- General JS Scripts -->
+        <script src="assets/modules/jquery.min.js"></script>
+        <script src="assets/modules/popper.js"></script>
+        <script src="assets/modules/tooltip.js"></script>
+        <script src="assets/modules/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/modules/nicescroll/jquery.nicescroll.min.js"></script>
+        <script src="assets/modules/moment.min.js"></script>
+        <script src="assets/js/stisla.js"></script>
 
-  <!-- Page Specific JS File -->
-  <script src="assets/js/page/auth-register.js"></script>
-  
-  <!-- Template JS File -->
-  <script src="assets/js/scripts.js"></script>
-  <script src="assets/js/custom.js"></script>
-</body>
+        <!-- JS Libraies -->
+        <script src="assets/modules/jquery-pwstrength/jquery.pwstrength.min.js"></script>
+        <script src="assets/modules/jquery-selectric/jquery.selectric.min.js"></script>
+
+        <!-- Page Specific JS File -->
+        <script src="assets/js/page/auth-register.js"></script>
+
+        <!-- Template JS File -->
+        <script src="assets/js/scripts.js"></script>
+        <script src="assets/js/custom.js"></script>
+    </body>
 </html>

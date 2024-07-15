@@ -1,88 +1,185 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="social-login-container">
-        <a href="/auth/github/redirect"
-            class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 me-2 mb-2">
-            <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z"
-                    clip-rule="evenodd" />
-            </svg>
-            Sign in with Github
-        </a>
-        <a href="/auth/google/redirect"
-            class="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2">
-            <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                viewBox="0 0 18 19">
-                <path fill-rule="evenodd"
-                    d="M8.842 18.083a8.8 8.8 0 0 1-8.65-8.948 8.841 8.841 0 0 1 8.8-8.652h.153a8.464 8.464 0 0 1 5.7 2.257l-2.193 2.038A5.27 5.27 0 0 0 9.09 3.4a5.882 5.882 0 0 0-.2 11.76h.124a5.091 5.091 0 0 0 5.248-4.057L14.3 11H9V8h8.34c.066.543.095 1.09.088 1.636-.086 5.053-3.463 8.449-8.4 8.449l-.186-.002Z"
-                    clip-rule="evenodd" />
-            </svg>
-            Sign in with Google
-        </a>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+
+    @yield('title')
+
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/fontawesome/css/all.min.css') }}">
+
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/jquery-selectric/selectric.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/jqvmap/dist/jqvmap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/weather-icon/css/weather-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/weather-icon/css/weather-icons-wind.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/summernote/summernote-bs4.css') }}">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" />
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/bootstrap-iconpicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/modules/select2/dist/css/select2.min.css') }}">
+
+    {{-- toaster css --}}
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/components.css') }}">
+
+
+    <style>
+        .btn-google {
+            color: #545454;
+            background-color: #ffffff;
+            box-shadow: 0 1px 2px 1px #ddd;
+        }
+    </style>
+
+
+    {{-- @vite(['resources/js/app.js', 'resources/js/admin.js']) --}}
+
+</head>
+
+<body style="background-image: url('{{ asset('backend/cassets/images/bg-chatapp.jpg') }}'); background-size: cover">
+
+    <div id="app">
+        <section class="section">
+            <div class="container mt-5">
+                <div class="row">
+                    <div
+                        class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                        <div class="login-brand">
+                            <img style="height: 40px" src="{{ asset('backend/cassets/images/chat_list_icon.png') }}"
+                                alt="logo" class="shadow-light ">
+                        </div>
+
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h4>Login</h4>
+                            </div>
+
+                            <div class="text-center mt-4 mb-3">
+                                <div class="text-job text-muted">Login With Social</div>
+                            </div>
+                            <div class="row sm-gutters text-center">
+                                <div class="col-12">
+                                    <div class="col-md-12">
+                                        <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline"
+                                            href="/auth/google/redirect"><img
+                                                src="https://img.icons8.com/color/16/000000/google-logo.png">Continue
+                                            With Google</a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-body">
+                                <form method="POST" method="POST" action="{{ route('login') }}"
+                                    class="needs-validation" novalidate="">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input id="email" type="email" class="form-control" name="email"
+                                            tabindex="1" required autofocus>
+                                        <div class="invalid-feedback">
+                                            Please fill in your email
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="d-block">
+                                            <label for="password" class="control-label">Password</label>
+                                            <div class="float-right">
+                                                <a href="auth-forgot-password.html" class="text-small">
+                                                    Forgot Password?
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <input id="password" type="password" class="form-control" name="password"
+                                            tabindex="2" required>
+                                        <div class="invalid-feedback">
+                                            please fill in your password
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="remember" class="custom-control-input"
+                                                tabindex="3" id="remember-me">
+                                            <label class="custom-control-label" for="remember-me">Remember Me</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                            Login
+                                        </button>
+                                    </div>
+                                </form>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-    <hr>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
-                required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    <!-- General JS Scripts -->
+    <script src="{{ asset('backend/assets/modules/jquery.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/popper.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/tooltip.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/moment.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/stisla.js') }}"></script>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    <!-- JS Libraies -->
+    <script src="{{ asset('backend/assets/modules/simple-weather/jquery.simpleWeather.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/jquery-selectric/jquery.selectric.min.js') }}"></script>
+    {{-- <script src="{{asset('backend/assets/modules/chart.min.js')}}"></script> --}}
+    <script src="{{ asset('backend/assets/modules/jqvmap/dist/jquery.vmap.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/summernote/summernote-bs4.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('backend/assets/js/bootstrap-iconpicker.bundle.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('backend/assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
+    {{-- toaster --}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                autocomplete="current-password" />
+    <!-- Page Specific JS File -->
+    <script src="{{ asset('backend/assets/js/page/forms-advanced-forms.js') }}"></script>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+    <!-- Template JS File -->
+    <script src="{{ asset('backend/assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/custom.js') }}"></script>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox"
-                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+    <script>
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr().error("{{ $error }}");
+            @endforeach
+        @endif
+    </script>
+</body>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
-
-<style>
-    .social-login-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .social-button {
-        padding: 15px;
-        background-color: orange;
-        color: white;
-        margin: 5px;
-        border-radius: 8px;
-    }
-</style>
+</html>
+`

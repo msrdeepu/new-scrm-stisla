@@ -124,7 +124,7 @@ class MessengerController extends Controller
         ];
 
         if (count($messages) < 1) {
-            $response['messages'] = '<div class="h-100 d-flex flex-row justify-content-center align-items-center"><p class="p-3 badge bg-primary text-bold">Say Hi and start Messaging</p></div>';
+            $response['messages'] = '<div class="h-100 d-flex flex-row justify-content-center align-items-center"><p class="p-3 badge bg-primary text-bold no_messages">Say Hi and start Messaging</p></div>';
             return response()->json($response);
         }
 
@@ -162,7 +162,7 @@ class MessengerController extends Controller
                 $contacts .= $this->getContactItem($user);
             }
         } else {
-            $contacts = '<p>Yout Contacts List is Empty</p>';
+            $contacts = '<p class="text-center no_contacts">Yout Contacts List is Empty</p>';
         }
         return response()->json([
             'contacts' => $contacts,

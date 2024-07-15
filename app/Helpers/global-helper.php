@@ -27,3 +27,11 @@ if (function_exists('timeAgo')) {
         }
     }
 }
+
+// truncate the string
+if (!function_exists('truncate')) {
+    function truncate($str, $limit = 12)
+    {
+        return \Str::limit($str, $limit, '...');
+    }
+}

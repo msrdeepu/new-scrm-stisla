@@ -79,7 +79,6 @@ button {
     --colorBlack: #121212;
     --colorWhite: #ffffff;
     --colorLightBg: #ecf5ff;
-    --colorBlue: #2180f3;
     --bodyFont: "Lato", sans-serif;
 }
 
@@ -622,12 +621,19 @@ button {
     background: #ffffffc4;
     z-index: 9999;
 }
-.wsus__chat_area .wsus__message_paceholder_black {
+
+.wsus__message_paceholder_black {
     position: absolute;
     width: 100%;
     height: 100%;
     background: #ffff !important;
-    z-index: 9999;
+    z-index: 1111;
+}
+
+.select_a_user {
+    padding: 5px 15px 5px 15px;
+    background: #ece9e9;
+    border-radius: 10px;
 }
 
 .wsus__chat_area_header {
@@ -739,24 +745,11 @@ button {
     gap: 10px;
 }
 
-.wsus__single_chat .chat_right_item {
+.wsus__single_chat .messages {
     background: var(--colorPrimary);
     display: inline-block;
     padding: 5px 20px;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
-    border-bottom-left-radius: 50px;
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--colorWhite);
-}
-.wsus__single_chat .chat_left_item {
-    background: var(--colorBlue);
-    display: inline-block;
-    padding: 5px 20px;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-radius: 50px;
     font-size: 16px;
     font-weight: 400;
     color: var(--colorWhite);
@@ -816,6 +809,7 @@ button {
     left: auto;
     right: 0;
 }
+
 .wsus__single_chat.chat_right {
     text-align: right;
     left: auto;
@@ -916,6 +910,13 @@ button {
 }
 
 .wsus__chat_area_footer form .file {
+    position: absolute;
+    left: 10px;
+    top: 8px;
+}
+
+.wsus__chat_area_footer form .file label {
+    cursor: pointer;
     width: 35px;
     height: 35px;
     background: var(--colorPrimary);
@@ -929,12 +930,9 @@ button {
     -moz-transition: all linear 0.3s;
     -ms-transition: all linear 0.3s;
     -o-transition: all linear 0.3s;
-    position: absolute;
-    left: 10px;
-    top: 8px;
 }
 
-.wsus__chat_area_footer form .file:hover {
+.wsus__chat_area_footer form .file label:hover {
     background: var(--colorBlack);
     color: var(--colorLightBg);
 }
@@ -1180,8 +1178,9 @@ button {
     font-size: 11px;
 }
 
-/* custom css */
-.profile-image-preview {
+/** Custom Css*/
+
+.img-fluid.profile-image-preview {
     height: 135px !important;
     width: 135px !important;
     object-fit: cover !important;
@@ -1193,10 +1192,11 @@ button {
 }
 
 .favourite.active {
-    background-color: var(--colorPrimary) !important;
+    background: var(--colorPrimary) !important;
 }
+
 .favourite.active i {
-    color: white;
+    color: var(--colorWhite) !important;
 }
 
 /*================================

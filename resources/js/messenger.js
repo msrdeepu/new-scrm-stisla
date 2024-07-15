@@ -207,8 +207,10 @@ function sendMessege() {
                 }
                 scrollToBottom(messageBoxContainer);
                 messageFormReset();
+                $(".no_messages").addClass("d-none");
             },
             success: function (data) {
+                makeSeen(true);
                 // update contact item
                 updateContactItem(getMessengerId());
                 const tempMsgCardElement = messageBoxContainer.find(
@@ -216,6 +218,7 @@ function sendMessege() {
                 );
                 tempMsgCardElement.before(data.message);
                 tempMsgCardElement.remove();
+                initVenobox();
             },
             error: function (xhr, status, error) {},
         });
@@ -255,11 +258,15 @@ function receiveMessageCard(e) {
         }">
         <div class="wsus__single_chat chat_left">
            <a class="venobox" data-gall="gallery ${e.id}" href="${
-            url + e.attachment
+            e.attachment
         }">
-                <img src="${url + e.attachment}" alt="" class="img-fluid w-100">
+                <img src="${e.attachment}" alt="" class="img-fluid w-100">
             </a>
-            ${e.body.length > 0 ? `<p class="messages">${e.body}</p>` : ""}
+            ${
+                e.body != null && e.body.length > 0
+                    ? `<p class="messages">${e.body}</p>`
+                    : ""
+            }
             <span class="time"> now</span>
            
         </div>
@@ -276,8 +283,11 @@ function receiveMessageCard(e) {
 }
 
 function messageFormReset() {
-    messegeForm.trigger("reset");
     $(".attachment-block").addClass("d-none");
+
+    messegeForm.trigger("reset");
+    var emojielt = $("#example1").emojioneArea();
+    emojielt.data("emojioneArea").setText("");
 }
 
 /**
@@ -406,6 +416,7 @@ function updateContactItem(user_id) {
             url: "/messenger/update-contsct-item",
             data: { user_id: user_id },
             success: function (data) {
+                messengerContactBox.find(".no_contacts").remove();
                 messengerContactBox
                     .find(`.messenger-list-item[data-id="${user_id}"]`)
                     .remove();
@@ -528,13 +539,12 @@ function playNotificationSound() {
 }
 
 window.Echo.private("message." + auth_id).listen("Message", (e) => {
-    console.log(e);
     let message = receiveMessageCard(e);
     if (getMessengerId() != e.from_id) {
         updateContactItem(e.from_id);
         playNotificationSound();
     }
-    //console.log(getMessengerId());
+
     if (getMessengerId() == e.from_id) {
         messageBoxContainer.append(message);
         scrollToBottom(messageBoxContainer);
@@ -573,7 +583,7 @@ $(document).ready(function () {
 
     $(".user_search").on("keyup", function () {
         let query = $(this).val();
-        // console.log(query);
+
         debouncedsearch();
     });
     //search pagination
@@ -587,8 +597,8 @@ $(document).ready(function () {
         let userId = $(this).attr("data-id");
         updateSelectedContact(userId);
         setMessengerId(userId);
-        console.log(getMessengerId());
         IDinfo(userId);
+        messageFormReset();
     });
 
     // send messege
@@ -634,5 +644,24 @@ $(document).ready(function () {
         e.preventDefault();
         let id = $(this).data("id");
         deleteMessage(id);
+    });
+
+    // custom hight adjustment
+    function adjustHeight() {
+        var windowHeight = $(window).height();
+        $(".wsus__chat_area_body").css("height", windowHeight - 120 + "px");
+        $(".messenger-contacts").css("max-height", windowHeight - 393 + "px");
+        $(".wsus__chat_info_gallery").css("height", windowHeight - 400 + "px");
+        $(".user_search_list_result").css({
+            height: windowHeight - 130 + "px",
+        });
+    }
+
+    // Call the function initially
+    adjustHeight();
+
+    // Call the function whenever the window is resized
+    $(window).resize(function () {
+        adjustHeight();
     });
 });

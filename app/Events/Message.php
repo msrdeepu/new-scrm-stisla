@@ -42,7 +42,7 @@ class Message implements ShouldBroadcast
             "id" => $this->message->id,
             "body" => $this->message->body,
             "to_id" => $this->message->to_id,
-            "attachment" => $this->message->attachment,
+            "attachment" => json_decode($this->message->attachment),
             "from_id" => auth()->user()->id
         ];
     }
