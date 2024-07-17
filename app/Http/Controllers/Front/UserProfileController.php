@@ -15,7 +15,7 @@ class UserProfileController extends Controller
 
     public function update(Request $request)
     {
-        dd($request);
+
 
         $request->validate([
             'avatar' => ['nullable', 'image', 'max:500'],
@@ -27,11 +27,15 @@ class UserProfileController extends Controller
 
         $avatarPath = $this->uploadFile($request, 'avatar');
 
+        //dd($avatarPath);
+
         $user = Auth::user();
         $user->name = $request->name;
         $user->user_name = $request->user_name;
         $user->email = $request->email;
         if ($avatarPath) $user->avatar = $avatarPath;
+
+        dd($avatarPath);
 
 
         if ($request->filled('current_password')) {

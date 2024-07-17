@@ -42,34 +42,35 @@
         $(document).ready(function() {
             $('.profile-form').on('submit', function(e) {
                 e.preventDefault();
+
                 let formData = new FormData(this);
+                let saveBtn = $('.profile-save');
+                let csrfToken = $('meta[name="csrf-token"]').attr('content');
+
                 $.ajax({
                     method: "POST",
-                    let saveBtn = $('.profile-save'),
-                        url: '{{ route('userprofile.update') }}',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        beforeSend: function() {
-                            saveBtn.text('Saving...');
-                            saveBtn.prop('disabled', true);
-                        }
+                    url: "{{ route('userprofile.update') }}",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function() {
+                        saveBtn.text('Saving...');
+                        saveBtn.prop('disabled', true);
+                    },
                     success: function(data) {
                         window.location.reload();
-
                     },
                     error: function(xhr, status, error) {
                         let errors = xhr.responseJSON.errors;
                         $.each(errors, function(index, value) {
-                            // console.log(value[0])
                             notyf.error(value[0]);
-                        })
+                        });
 
-                        saveBtn.text('Save Changes');
+                        saveBtn.text('Save changes');
                         saveBtn.prop('disabled', false);
                     }
-                })
-            })
-        })
+                });
+            });
+        });
     </script>
 @endpush

@@ -2,9 +2,9 @@
     <div class="wsus__user_list_header">
         <a href="/messenger">
             <h3 style="font-family: sans-serif">
-                <span> <img style="height: 40px" src="{{ asset('backend/cassets/images/chat_list_icon.png') }}"
-                        alt="logo" class="shadow-light "></span>
-                NYRA
+                <span> <img src="{{ asset('backend/cassets/images/chat_list_icon.png') }}" alt="logo"
+                        class="shadow-light "></span>
+                <span style="font-family:sans-serif;">LYRA</span>
             </h3>
         </a>
         <span class="setting" data-bs-toggle="modal" data-bs-target="#exampleModal">
